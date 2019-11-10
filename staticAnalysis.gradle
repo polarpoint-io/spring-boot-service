@@ -1,0 +1,101 @@
+buildscript {
+    ext {
+        sonarPluginVersion = '2.7'
+        spotbugsPluginVersion = '1.6.9'
+        owaspDependencyCheckVersion = '4.0.2'
+        spotbugsToolVersion = '3.1.12'
+        checkstyleToolVersion = '8.16'
+    }
+    repositories {
+                maven {
+            credentials {
+                username "$nexusUsername"
+                password "$nexusPassword"
+            }
+            url 'https://artifact.pohzn.com/repository/maven-public'
+        }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    
+    dependencies {
+
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarPluginVersion}"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotbugsPluginVersion}"
+        classpath "org.owasp:dependency-check-gradle:${owaspDependencyCheckVersion}"
+    }
+}
+
+
+apply plugin: org.sonarqube.gradle.SonarQubePlugin
+apply plugin: com.github.spotbugs.SpotBugsPlugin
+apply plugin: org.gradle.api.plugins.quality.CheckstylePlugin
+apply plugin: org.owasp.dependencycheck.gradle.DependencyCheckPlugin
+
+project.extensions.extraProperties.set('spotBugsMain', com.github.spotbugs.SpotBugsTask)
+
+dependencies {
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.8.0'
+}
+
+sonarqube {
+    //noinspection GroovyAssignabilityCheck
+    properties {
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/jacocoTestgradle.exec"
+    }
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.destination rootProject.file("build/test-results/checkstyle/checkstyle_output.xml")
+    }
+}
+
+checkstyle {
+    toolVersion = checkstyleToolVersion
+    configFile = rootProject.file("pipelines/conf/checkstyle/checkstyle.xml");
+    showViolations = true
+    ignoreFailures = true
+
+}
+
+spotbugs {
+    toolVersion = spotbugsToolVersion
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+    omitVisitors = ['PermissiveCORSDetector']
+
+
+}
+
+dependencyCheck {
+    data {
+        directory = '/tmp/gradle/nvd'
+    }
+    autoUpdate = false
+    cveValidForHours = 24
+    failBuildOnCVSS = 20
+    failOnError = false
+    suppressionFile = 'pipelines/conf/owasp/suppressions.xml'
+    analyzers {
+        experimentalEnabled = true
+        archiveEnabled = true
+        jarEnabled = true
+        centralEnabled = true
+        nexusEnabled = true
+        pyDistributionEnabled = false
+        pyPackageEnabled = false
+        rubygemsEnabled = false
+        opensslEnabled = false
+        nuspecEnabled = false
+        assemblyEnabled = false
+        cmakeEnabled = false
+        autoconfEnabled = true
+        composerEnabled = false
+        nodeEnabled = true
+        nspEnabled = false
+        cocoapodsEnabled = false
+        swiftEnabled = false
+    }
+
+}

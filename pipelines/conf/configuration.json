@@ -1,0 +1,36 @@
+{
+    "stagingDockerRegistry": {
+        "credentialsID": "svc-nexus-user",
+        "url": "https://staging-image.pohzn.com"
+    },
+    "spinnaker": {
+        "memoryRequests": "1Gi",
+        "replicas": 1,
+        "imagePullSecrets": "nexus-registry-credentials",
+        "memoryLimits": "1Gi",
+        "env": "dev",
+        "targetPort": 8080,
+        "cpuRequests": 0.5,
+        "runAsUser": 1000,
+        "port": 8080,
+        "containerPort": 8080,
+        "imageRepository": "image.pohzn.com",
+        "nameSpace": "dev",
+        "cpuLimits": 1.0,
+        "applicationName": "archetype"
+    },
+    "application": "springboot-archetype",
+    "dockerRegistry": {
+        "credentialsID": "svc-nexus-user",
+        "url": "https://image.pohzn.com"
+    },
+    "archivesBaseName": "springboot-archetype",
+    "sonar": {
+        "coverage_exclusions": "pipelines/**",
+        "exclusions": "*.tar.gz,checkstyleReports/**,unitReports/**,bddReports/**,pipelines/**",
+        "server_id": "sonarQubeDev",
+    },
+    "sourceCompatibility": "1.8",
+    "version": "0.9.0",
+    "group": "com.pol.exp"
+}

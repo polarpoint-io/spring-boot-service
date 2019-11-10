@@ -1,0 +1,25 @@
+Configuration:
+  status: warn
+  name: HelloWorldApplication
+  thresholdFilter:
+    level: debug
+  appenders:
+    Console:
+      - name: JsonConsole
+        JsonLayout:
+          complete: true
+          compact: false
+          stacktraceAsString: true
+          properties: true
+
+  Loggers:
+    logger:
+        name: sample.HelloWorldApplication
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: JsonConsole
+    Root:
+      level: error
+      AppenderRef:
+        ref: JsonConsole
