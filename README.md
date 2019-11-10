@@ -6,12 +6,12 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-  <h3 align="center">springboot-archetype-service</h3>
+  <h3 align="center">spring-boot-service</h3>
 
   <p align="center">
     Simple Java springboot template to use as a template for your new repos
     <br />
-    <a href="https://github.pohzn.com/hih/springboot-archetype-service"><strong>Explore the docs »</strong></a>
+    <a href="https://github.pohzn.com/hih/spring-boot-service"><strong>Explore the docs »</strong></a>
     <br />
   </p>
 
@@ -59,7 +59,7 @@ This is an example of how to list things you need to use the software and how to
  
 1. Clone the repo
 ```sh
-git clone https://github.pohzn.com/hih/springboot-archetype-service.git
+git clone https://github.pohzn.com/hih/spring-boot-service.git
 ```
 
 
