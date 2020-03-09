@@ -16,5 +16,5 @@ properties([
 
 
 def configuration = "pipelines/conf/configuration.json"
-invokePipeline('spring-boot-service', configuration)
+invokeJava_v_0_2_0_Pipeline('spring-boot-service', configuration)
 
