@@ -1,6 +1,6 @@
 import io.polarpoint.workflow.*
 
-@Library('pipeline-library@master')
+@Library('pipeline-library@master') _
 
 
 import io.polarpoint.workflow.*
